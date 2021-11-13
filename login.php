@@ -1,4 +1,10 @@
+<?php require_once 'class/funciones.php';
 
+if (isset($_SESSION['id'])) 
+{
+    header("Location: ./index.php"); 
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -23,30 +29,27 @@
         <form class="login-form">
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>INGRESA AL PANEL</h3>
 
-         <!-- *******************************************
-           esto se debe mostrar solo si hay errores en el logueo, y no mostrar la otra de Ingresa tus datos
-          <div class="bs-component">
+           <!--esto se debe mostrar solo si hay errores en el logueo, y no mostrar la otra de Ingresa tus datos-->
+          <div class="bs-component" id="error" style="display: none;">
             <div class="alert alert-dismissible alert-danger">
               <strong>Datos incorrectos.</strong>
             </div>
           </div>
-           *******************************************
-          -------->
+
           <!-- si hay errores se muestra la seccion anterior, y esta no -->
-          <div class="bs-component">
+          <div class="bs-component" id="alert">
             <div class="alert alert-dismissible alert-info">
               <strong>Ingresa tus datos</strong>
             </div>
           </div>
-          <!-------->
 
           <div class="form-group">
             <label class="control-label">USUARIO</label>
-            <input class="form-control" placeholder="Email" autofocus>
+            <input class="form-control" placeholder="Email" id="email" autofocus>
           </div>
           <div class="form-group">
             <label class="control-label">PASSWORD</label>
-            <input class="form-control" placeholder="Password">
+            <input class="form-control" placeholder="Password" id="password">
           </div>
           <div class="form-group">
             <div class="utility">
@@ -54,7 +57,7 @@
             </div>
           </div>
           <div class="form-group btn-container">
-            <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>INGRESAR</button>
+            <button type="button" class="btn btn-primary btn-block" id="logear"><i class="fa fa-sign-in fa-lg fa-fw"></i>INGRESAR</button>
           </div>
         </form>
         <form class="forget-form" method="post" >
@@ -100,6 +103,7 @@
     <script src="js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
+    <script src="js/Login.js"></script>
     <script type="text/javascript">
       // Login Page Flipbox control
       $('.login-content [data-toggle="flip"]').click(function() {

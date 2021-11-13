@@ -1,3 +1,10 @@
+<?php require_once 'class/funciones.php';
+
+if (!isset($_SESSION['id'])) 
+{
+    header("Location: ./login.php"); 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,7 +20,7 @@
     <meta property="og:url" content="http://pratikborsadiya.in/blog/vali-admin">
     <meta property="og:image" content="http://pratikborsadiya.in/blog/vali-admin/hero-social.png">
     <meta property="og:description" content="Vali is a responsive and free admin theme built with Bootstrap 4, SASS and PUG.js. It's fully customizable and modular.">
-    <title>Registro - Vali Admin</title>
+    <title>Listado - Vali Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,9 +85,9 @@
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            <li><a class="dropdown-item" href="#" id="logout"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
           </ul>
-        </li>
+        </li> 
       </ul>
     </header>
     <!-- Sidebar menu-->
@@ -93,13 +100,13 @@
         </div>
       </div>
       <ul class="app-menu">
-        <li><a class="app-menu__item active" href="index.html"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
+        <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
 
-        <li><a class="app-menu__item" href="carga.html"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
+        <li><a class="app-menu__item" href="carga.php"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
 
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Listados</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado de incidencias</a></li>
+            <li><a class="treeview-item" href="listado.php"><i class="icon fa fa-circle-o"></i> Listado de incidencias</a></li>
             <!--otros listados
             <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado2</a></li>
             <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado3</a></li>            
@@ -112,77 +119,100 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-edit"></i> Registra aqui tu incidencia</h1>
-          <p>Detalla lo mas que puedas el problema que se presenta</p>
+          <h1><i class="fa fa-th-list"></i> Listados</h1>
+          <!-- si es administrador vera este titulo-->
+          <p>Listado total de incidencias</p>
+          
+          <!-- si es usuario normal vera este titulo-
+          <p>Listado de mis incidencias cargadas</p> -->
+
+          <!-- si es técnico vera este titulo
+          <p>Listado de incidencias no finalizadas</p> -->
+
+
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item">Inicio</li>
-          <li class="breadcrumb-item"><a href="#">Registro</a></li>
+          <li class="breadcrumb-item">Listado</li>
+          <li class="breadcrumb-item active"><a href="#">Listado de Incidencias</a></li>
         </ul>
       </div>
       <div class="row">
+        
         <div class="col-md-12">
           <div class="tile">
-            <h3 class="tile-title">Ingresa los datos solicitados</h3>
-            <div class="bs-component">
-                <div class="alert alert-dismissible alert-danger">
-                  <strong>Debes ingresar xxx.</strong>
-                </div>
-              </div>
-              <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
-                  <strong>Registro almacenado!</strong>
-                </div>
-              </div>
-              <div class="bs-component">
-                <div class="alert alert-dismissible alert-info">
-                  <strong>Los campos con <i class="fa fa-asterisk" aria-hidden="true"></i> son obligatorios</strong>
-                </div>
-              </div>
-            <div class="tile-body">
-              <form>
-                <div class="form-group">
-                  <label class="control-label">Título</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
-                  <input class="form-control" >
-                </div>
-                
-                <div class="form-group">
-                  <label class="control-label">Descripción del problema <i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                  <textarea class="form-control" rows="4" placeholder="Ingresa los detalles..."></textarea>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">Prioridad</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Alta
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Media
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Baja
-                    </label>
-                  </div>
-                </div>
-                <!--
-                <div class="form-group">
-                  <label class="control-label">Puedes subir una captura de pantalla</label>
-                  <input class="form-control" type="file">
-                </div>
-                -->
-                <div class="tile-footer">
-              <button class="btn btn-primary" type="button" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="index.html"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+            <h3 class="tile-title">Incidencias (Nro Total)</h3>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Prioridad</th>
+                    <th>Registro</th>
+                    <th>Estado</th>
+                    <th>Solicitante</th>
+                    <th>Area</th>
+                    <th>Opciones</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-danger">
+                    <td>1</td>
+                    <td>El monitor no enciende</td>
+                    <td>Al encender el equipo, el monitor no enciende ni se visualiza luz en el mismo (las primeras 20 palabras)...</td>
+                    <td>Alta</td>
+                    <td>23/05/2021 10:23:56</td>
+                    <td>Solicitado</td>
+                    <td>Rick Grimes</td>
+                    <td>Administración</td>
+                    <td><a href="#">Ver detalles...</a></td>
+                  </tr>
+                 
+                  <tr class="table-warning">
+                    <td>2</td>
+                    <td>Al ingresar al sistema se nota lentitud</td>
+                    <td>cuando me logueo en el sistema del trabajo, el equipo comienza a ponerse muy lento</td>
+                    <td>Media</td>
+                    <td>23/05/2021 11:30:56</td>
+                    <td>En proceso</td>
+                    <td>Daryl Dixon</td>
+                    <td>Contabilidad</td>
+                    <td><a href="#">Ver detalles...</a></td>
+                  </tr>
+
+                  <tr class="table-info">
+                      <td>3</td>
+                      <td>Solicitud de permiso</td>
+                      <td>Necesito me habiliten el ingreso al sistema de gestión de pagos</td>
+                      <td>Baja</td>
+                      <td>23/05/2021 12:30:56</td>
+                      <td>En proceso</td>
+                      <td>Carol Peletier</td>
+                      <td>Ventas</td>
+                      <td><a href="#">Ver detalles...</a></td>
+                  </tr>
+
+                  <tr class="table-success">
+                      <td>4</td>
+                      <td>El mouse no funciona</td>
+                      <td>Probando conectarlo al USB de varios equipos, no logro que funcione, solicito un cambio</td>
+                      <td>Media </td>
+                      <td>23/05/2021 13:30:56 </td>
+                      <td>Resuelto </td>
+                      <td>Maggie Greene</td>
+                      <td>Administración</td>
+                      <td><a href="#">Ver detalles...</a></td>
+                    </tr>
+
+                </tbody>
+              </table>
             </div>
-            </div>
-            
-            </form>
           </div>
         </div>
+        <div class="clearfix"></div>
         
       </div>
     </main>
@@ -194,6 +224,6 @@
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
-   
+    
   </body>
 </html>

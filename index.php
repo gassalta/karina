@@ -1,3 +1,10 @@
+<?php require_once 'class/funciones.php';
+
+if (!isset($_SESSION['id'])) 
+{
+    header("Location: ./login.php"); 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">  
   <head>
@@ -24,7 +31,7 @@
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="index.html">Mi Panel</a>
+    <header class="app-header"><a class="app-header__logo" href="index.php">Mi Panel</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
@@ -78,7 +85,7 @@
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            <li><a class="dropdown-item" href="#" id="logout"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -93,16 +100,16 @@
           </div>
         </div>
         <ul class="app-menu">
-            <li><a class="app-menu__item active" href="index.html"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
+            <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
     
-            <li><a class="app-menu__item" href="carga.html"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
+            <li><a class="app-menu__item" href="carga.php"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
     
             <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Listados</span><i class="treeview-indicator fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
-                <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado de incidencias</a></li>
+                <li><a class="treeview-item" href="listado.php"><i class="icon fa fa-circle-o"></i> Listado de incidencias</a></li>
                 <!--otros listados
-                <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado2</a></li>
-                <li><a class="treeview-item" href="listado.html"><i class="icon fa fa-circle-o"></i> Listado3</a></li>            
+                <li><a class="treeview-item" href="listado.php"><i class="icon fa fa-circle-o"></i> Listado2</a></li>
+                <li><a class="treeview-item" href="listado.php"><i class="icon fa fa-circle-o"></i> Listado3</a></li>            
                 -->
               </ul>
             </li>

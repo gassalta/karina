@@ -25,3 +25,10 @@
 	$("[data-toggle='tooltip']").tooltip();
 
 })();
+
+$(document).ready(function () {
+	// Cerrar sesion de usuario
+	$('#logout').on("click", function (e) {
+		window.location = "class/funciones.php?logout=true";
+	});
+});
