@@ -82,7 +82,9 @@ class Usuarios
 
             $pdo = $this->db;
             // Verificar usuario y contraseña que este activo
-            $login_usuario = $pdo->prepare("SELECT * FROM usuarios WHERE email = '{$email}' AND password = '{$password}'");
+            $login_usuario = $pdo->prepare("SELECT us.id,us.nombre,us.apellido,us.imagen, un.nivel_nombre nivel FROM usuarios us
+                                            INNER JOIN user_niveles un ON un.id = us.nivel
+                                            WHERE email = '{$email}' AND password = '{$password}'");
             // Bind values
 
             $login_usuario->execute();

@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // Logear usuario
     $('#logear').on("click", function (e) {
+        // Evitar doble envio de formulario
         e.preventDefault();
 
         var body = {
@@ -25,8 +26,55 @@ $(document).ready(function () {
                 console.log(response);
                 const msgs = response;
                 if (msgs.status == 'success') {
-                    var div = `<div class="c_information"</div>`;
-                    setInterval(realoader, 5000);
+                    $('#alert').hide();
+                    $('#success').show();
+
+                    setInterval(realoader, 3000);
+                    function realoader() {
+                        location.reload('./')
+                    }
+                } else if (msgs.status == 'error') {
+                    $('#alert').hide();
+                    $('#error').show();
+                }
+            });
+
+
+
+        return false;
+    });
+
+     // Grabar incidencia
+     $('#grabar').on("click", function (e) {
+        e.preventDefault();
+
+        var body = {
+            body: {
+                titulo: document.getElementsByName("titulo").value,
+                detalles: document.getElementsByName("detalles").value,
+                prioridad: document.getElementsByName("prioridad").value,
+            }
+        };
+
+        fetch('class/funciones.php?incidencia=true', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        })
+            .then(res => res.json())
+            .catch(function (error) {
+                console.error('Error:', error);
+            })
+            .then(function (response) {
+                console.log(response);
+                const msgs = response;
+                if (msgs.status == 'success') {
+                    $('#alert').hide();
+                    $('#success').show();
+
+                    setInterval(realoader, 3000);
                     function realoader() {
                         location.reload('./')
                     }

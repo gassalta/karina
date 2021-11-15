@@ -85,7 +85,7 @@ if (!isset($_SESSION['id']))
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <li><a class="dropdown-item" href="#"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="#"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-            <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            <li><a class="dropdown-item" href="#" id="logout"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -100,9 +100,9 @@ if (!isset($_SESSION['id']))
         </div>
       </div>
       <ul class="app-menu">
-        <li><a class="app-menu__item active" href="index.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
+        <li><a class="app-menu__item " href="index.php"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
 
-        <li><a class="app-menu__item" href="carga.php"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
+        <li><a class="app-menu__item active" href="carga.php"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span></a></li>
 
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Listados</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
@@ -132,7 +132,7 @@ if (!isset($_SESSION['id']))
         <div class="col-md-12">
           <div class="tile">
             <h3 class="tile-title">Ingresa los datos solicitados</h3>
-            <div class="bs-component">
+            <!-- <div class="bs-component">
                 <div class="alert alert-dismissible alert-danger">
                   <strong>Debes ingresar xxx.</strong>
                 </div>
@@ -146,33 +146,33 @@ if (!isset($_SESSION['id']))
                 <div class="alert alert-dismissible alert-info">
                   <strong>Los campos con <i class="fa fa-asterisk" aria-hidden="true"></i> son obligatorios</strong>
                 </div>
-              </div>
+              </div> -->
             <div class="tile-body">
-              <form>
+              <form id="incidencia">
                 <div class="form-group">
                   <label class="control-label">Título</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
-                  <input class="form-control" >
+                  <input class="form-control" name="titulo" >
                 </div>
                 
                 <div class="form-group">
                   <label class="control-label">Descripción del problema <i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                  <textarea class="form-control" rows="4" placeholder="Ingresa los detalles..."></textarea>
+                  <textarea class="form-control" name="detalles" rows="4" placeholder="Ingresa los detalles..."></textarea>
                 </div>
                 <div class="form-group">
                   <label class="control-label">Prioridad</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Alta
+                      <input class="form-check-input" name="prioridad" value="1" type="radio" >Alta
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Media
+                      <input class="form-check-input" name="prioridad" value="2" type="radio" >Media
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" >Baja
+                      <input class="form-check-input" name="prioridad" value="3" type="radio" >Baja
                     </label>
                   </div>
                 </div>
@@ -183,7 +183,7 @@ if (!isset($_SESSION['id']))
                 </div>
                 -->
                 <div class="tile-footer">
-              <button class="btn btn-primary" type="button" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="index.html"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+              <button class="btn btn-primary" id="grabar" type="button" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="index.php"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
             </div>
             </div>
             

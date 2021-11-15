@@ -93,10 +93,10 @@ if (!isset($_SESSION['id']))
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/team/sue.png" alt="Sue Palacios">
+        <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="images/<?=$_SESSION['imagen']?>" width="48px" alt="Sue Palacios">
           <div>
-            <p class="app-sidebar__user-name">Sue Palacios</p>
-            <p class="app-sideba__user-designation">Administrador</p>
+            <p class="app-sidebar__user-name"><?=$_SESSION['nombre'].' '.$_SESSION['apellido']?></p>
+            <p class="app-sideba__user-designation"><?=$_SESSION['nivel']?></p>
           </div>
         </div>
         <ul class="app-menu">

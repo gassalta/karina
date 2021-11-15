@@ -29,6 +29,12 @@ if (isset($_SESSION['id']))
         <form class="login-form">
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>INGRESA AL PANEL</h3>
 
+          <div class="bs-component" id="success" style="display: none;">
+                <div class="alert alert-dismissible alert-success">
+                  <strong>Login exitoso!</strong>
+                </div>
+              </div>
+
            <!--esto se debe mostrar solo si hay errores en el logueo, y no mostrar la otra de Ingresa tus datos-->
           <div class="bs-component" id="error" style="display: none;">
             <div class="alert alert-dismissible alert-danger">
@@ -45,11 +51,11 @@ if (isset($_SESSION['id']))
 
           <div class="form-group">
             <label class="control-label">USUARIO</label>
-            <input class="form-control" placeholder="Email" id="email" autofocus>
+            <input class="form-control" placeholder="Email" id="email" type="email" autofocus required>
           </div>
           <div class="form-group">
             <label class="control-label">PASSWORD</label>
-            <input class="form-control" placeholder="Password" id="password">
+            <input class="form-control" placeholder="Password" type="password" id="password" required>
           </div>
           <div class="form-group">
             <div class="utility">
@@ -103,7 +109,7 @@ if (isset($_SESSION['id']))
     <script src="js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
-    <script src="js/Login.js"></script>
+    <script src="js/Funciones.js"></script>
     <script type="text/javascript">
       // Login Page Flipbox control
       $('.login-content [data-toggle="flip"]').click(function() {

@@ -1,11 +1,10 @@
 <?php
-require 'config.php';
+require 'config.php'; // Archivo de conexion
 session_start();
-setcookie(session_id(), NULL, NULL, NULL, 1);
 setlocale(LC_ALL, 'es_AR', 'esp');
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-require 'usuarios.php';
-require 'incidencias.php';
+require 'usuarios.php'; // Clase de usuarios
+require 'incidencias.php'; // Clase de incidencias
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 if (isset($_GET['login'])) {
 
@@ -21,10 +20,15 @@ if (isset($_GET['login'])) {
     } */
     // pass the request method and post ID to the Post and process the HTTP request:
     $control = new Usuarios($bd, $requestMethod, $userId);
-    $control->gets();
-}else if(isset($_GET['logout'])){
+    $control->gets(); // Llamadas
+} else if (isset($_GET['logout'])) {
     unset($_SESSION['id']);
-        session_destroy();
-        session_regenerate_id(true);
-        header("Location: ../login.php");
+    session_destroy();
+    session_regenerate_id(true);
+    header("Location: ../login.php");
+} else if (isset($_GET['incidencia'])) {
+    $userId = null;
+
+    $control = new Incidencias($bd, $requestMethod, $userId);
+    $control->gets();
 }
