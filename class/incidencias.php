@@ -1,26 +1,18 @@
 <?php
 class Incidencias
 {
-    private $db, $requestMethod, $userId;
+    private $db, $requestMethod;
     private static $valid = true;
 
-    public function __construct($db, $requestMethod, $userId)
+    public function __construct($db, $requestMethod)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
     }
 
     public function gets()
     {
         switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->userId) {
-                    $response = $this->incidencia($this->userId);
-                } else {
-                    $response = $this->mostrarIncidencias();
-                };
-                break;
             case 'POST':
                 $response = $this->grabarIncidente();
                 break;
@@ -35,12 +27,34 @@ class Incidencias
 
     public function mostrarIncidencias()
     {
-        $query = 'SELECT ins.id,ins.titulo,ins.descripcion,u.nombre,u.apellido,ua.area_nombre area, ie.est_nombre estado, ip.pri_nombre prioridad, DATE_FORMAT(ins.fecha, "%d/%m%Y %H:%i:%s") fechas FROM incidencias ins
+        switch ($_SESSION['nivel']) {
+            case 'Administrador':
+                $query = 'SELECT ins.id,ins.titulo,ins.descripcion,u.nombre,u.apellido,ua.area_nombre area, ie.est_nombre estado, ip.pri_nombre prioridad, DATE_FORMAT(ins.fecha, "%d/%m%Y %H:%i:%s") fechas FROM incidencias ins
         INNER JOIN inc_prioridades ip ON ins.prioridad = ip.pri_id 
         INNER JOIN inc_estado ie ON ins.estado = ie.est_id
         INNER JOIN usuarios u ON ins.creado_por = u.id
         INNER JOIN user_areas ua ON u.area = ua.id
-        ORDER by ins.prioridad ASC;';
+        ORDER by ins.prioridad ASC, ins.fecha DESC';
+                break;
+            case 'Usuario normal':
+                $query = 'SELECT ins.id,ins.titulo,ins.descripcion,u.nombre,u.apellido,ua.area_nombre area, ie.est_nombre estado, ip.pri_nombre prioridad, DATE_FORMAT(ins.fecha, "%d/%m%Y %H:%i:%s") fechas FROM incidencias ins
+                INNER JOIN inc_prioridades ip ON ins.prioridad = ip.pri_id 
+                INNER JOIN inc_estado ie ON ins.estado = ie.est_id
+                INNER JOIN usuarios u ON ins.creado_por = u.id
+                INNER JOIN user_areas ua ON u.area = ua.id
+                WHERE ins.creado_por = "' . $_SESSION['id'] . '"
+                ORDER by ins.prioridad ASC, ins.fecha DESC';
+                break;
+            case 'Tecnico':
+                $query = 'SELECT ins.id,ins.titulo,ins.descripcion,u.nombre,u.apellido,ua.area_nombre area, ie.est_nombre estado, ip.pri_nombre prioridad, DATE_FORMAT(ins.fecha, "%d/%m%Y %H:%i:%s") fechas FROM incidencias ins
+                INNER JOIN inc_prioridades ip ON ins.prioridad = ip.pri_id 
+                INNER JOIN inc_estado ie ON ins.estado = ie.est_id
+                INNER JOIN usuarios u ON ins.creado_por = u.id
+                INNER JOIN user_areas ua ON u.area = ua.id
+                WHERE ins.estado NOT IN ("3")
+                ORDER by ins.prioridad ASC, ins.fecha DESC;';
+                break;
+        };
 
         try {
             $statement = $this->db->query($query);
@@ -53,16 +67,6 @@ class Incidencias
         return $response;
     }
 
-    private function incidencia($id)
-    {
-        $result = $this->find($id);
-        if (!$result) {
-            return $this->notFoundResponse();
-        }
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = $result;
-        return $response;
-    }
 
     private function grabarIncidente()
     {
@@ -94,7 +98,6 @@ class Incidencias
                 $incidenciaSql = $pdo->prepare($insertar);
                 $incidenciaSql->execute();
                 $status = 'success';
-                
             } catch (\PDOException $e) {
                 exit($e->getMessage());
             }
@@ -107,31 +110,6 @@ class Incidencias
         return $response;
     }
 
-    public function find($id)
-    {
-        $query = "SELECT * FROM bom_users_perfil bup
-        INNER JOIN bom_users_perfil_datos bupd ON bup.wb_user_id = bupd.user_d_id
-        WHERE bup.wb_user_id = '{$id}' AND bup.deleted = 0";
-
-        try {
-            $statement = $this->db->prepare($query);
-            $statement->execute();
-            if ($statement->rowCount() != 0) {
-                $status = 'success';
-                $message = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            } else {
-                $status  = "error";
-                $message = "No existe el usuario {$id}";
-            }
-            $response['body'] = array(
-                'status' =>  $status,
-                'message' => $message
-            );
-            return $response;
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
 
     private function validatePost($input)
     {

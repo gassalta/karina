@@ -54,10 +54,10 @@ $(document).ready(function () {
 
         // Titulo con mas de 5 caracteres
         $('.alert-danger, .alert-info').hide();
-        if (!Titulo) {
-           $('.alert-danger').empty().show().html('Debe ingresar el titulo');
-        } else if (!Detalles) {
-            $('.alert-danger').empty().show().html('Debe ingresar los detalles');
+        if (!Titulo || Titulo.length < 10) {
+           $('.alert-danger').empty().show().html('Debe ingresar el titulo mayor a 10 caracteres');
+        } else if (!Detalles || Detalles.length < 10) {
+            $('.alert-danger').empty().show().html('Debe ingresar los detalles con mas de 10 caracteres');
         } else if (!Prioridad) {
             $('.alert-danger').empty().show().html('Debe seleccionar una prioridad');
         } else {
@@ -82,9 +82,9 @@ $(document).ready(function () {
                     console.error('Error:', error);
                 })
                 .then(function (response) {
-                    console.log(response);
                     const msgs = response;
-                    if (msgs.status == 'success') {
+                    console.log(msgs);
+                    if (msgs.body.status == 'success') {
                         $('.alert-success').show();
 
                         setInterval(realoader, 3000);
@@ -99,26 +99,3 @@ $(document).ready(function () {
         return false;
     });
 });
-
-
-//OCULTAR EL DIV EN CASO DE SER FALSO EL BOMBERO
-function OCULTAR_DIV(dato) {
-    if (dato == "comision") {
-        $("#div-geras").css('display', 'none').fadeOut(200);
-    }
-    if (dato == "socio") {
-        $("#div-geras").css('display', 'none').fadeOut(200);
-    }
-    if (dato == "civil") {
-        $("#div-geras").css('display', 'none').fadeOut(200);
-    }
-    if (dato == "profesional") {
-        $("#div-geras").css('display', 'none').fadeOut(200);
-    }
-    if (dato == "otro") {
-        $("#div-geras").css('display', 'none').fadeOut(200);
-    }
-    if (dato == "bombero") {
-        $("#div-geras").css('display', 'none').fadeIn(200);
-    };
-};

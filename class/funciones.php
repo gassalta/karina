@@ -7,19 +7,7 @@ require 'usuarios.php'; // Clase de usuarios
 require 'incidencias.php'; // Clase de incidencias
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 if (isset($_GET['login'])) {
-
-    header("Access-Control-Allow-Origin: localhost/karina");
-    header("Content-Type: application/json; charset=UTF-8");
-    header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
-    header("Access-Control-Max-Age: 3600");
-    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-    $userId = null;
-    /* if (isset($urlSubBase)) {
-        $userId = $urlSubBase;
-    } */
-    // pass the request method and post ID to the Post and process the HTTP request:
-    $control = new Usuarios($bd, $requestMethod, $userId);
+    $control = new Usuarios($bd, $requestMethod);
     $control->gets(); // Llamadas
 } else if (isset($_GET['logout'])) {
     unset($_SESSION['id']);
@@ -27,8 +15,6 @@ if (isset($_GET['login'])) {
     session_regenerate_id(true);
     header("Location: ../login.php");
 } else if (isset($_GET['incidencia'])) {
-    $userId = null;
-
-    $control = new Incidencias($bd, $requestMethod, $userId);
+    $control = new Incidencias($bd, $requestMethod);
     $control->gets();
 }

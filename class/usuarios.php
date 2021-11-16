@@ -1,26 +1,18 @@
 <?php
 class Usuarios
 {
-    private $db, $requestMethod, $userId;
+    private $db, $requestMethod;
     private static $valid = true;
 
-    public function __construct($db, $requestMethod, $userId)
+    public function __construct($db, $requestMethod)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
     }
 
     public function gets()
     {
         switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->userId) {
-                    $response = $this->getUser($this->userId);
-                } else {
-                    $response = $this->getAllUsers();
-                };
-                break;
             case 'POST':
                 $response = $this->loginUser();
                 break;
@@ -32,33 +24,6 @@ class Usuarios
         if ($response['body']) {
             echo json_encode($response['body']);
         }
-    }
-
-    private function getAllUsers()
-    {
-        $query = "SELECT * FROM usuarios";
-
-        try {
-            $statement = $this->db->query($query);
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = $result;
-        return $response;
-    }
-
-    private function getUser($id)
-    {
-        $result = $this->find($id);
-        if (!$result) {
-            return $this->notFoundResponse();
-        }
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = $result;
-        return $response;
     }
 
     private function loginUser()
@@ -122,31 +87,6 @@ class Usuarios
         $_SESSION['imagen'] = $row['imagen'];
     }
 
-    public function find($id)
-    {
-        $query = "SELECT * FROM bom_users_perfil bup
-        INNER JOIN bom_users_perfil_datos bupd ON bup.wb_user_id = bupd.user_d_id
-        WHERE bup.wb_user_id = '{$id}' AND bup.deleted = 0";
-
-        try {
-            $statement = $this->db->prepare($query);
-            $statement->execute();
-            if ($statement->rowCount() != 0) {
-                $status = 'success';
-                $message = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            } else {
-                $status  = "error";
-                $message = "No existe el usuario {$id}";
-            }
-            $response['body'] = array(
-                'status' =>  $status,
-                'message' => $message
-            );
-            return $response;
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
 
     private function validatePost($input)
     {
