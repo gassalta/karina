@@ -132,13 +132,13 @@ if (!isset($_SESSION['id']))
         <div class="col-md-12">
           <div class="tile">
             <h3 class="tile-title">Ingresa los datos solicitados</h3>
-            <!-- <div class="bs-component">
-                <div class="alert alert-dismissible alert-danger">
-                  <strong>Debes ingresar xxx.</strong>
+            <div class="bs-component">
+                <div class="alert alert-dismissible alert-danger" style="display: none;">
+                  
                 </div>
               </div>
               <div class="bs-component">
-                <div class="alert alert-dismissible alert-success">
+                <div class="alert alert-dismissible alert-success" style="display: none;">
                   <strong>Registro almacenado!</strong>
                 </div>
               </div>
@@ -146,17 +146,17 @@ if (!isset($_SESSION['id']))
                 <div class="alert alert-dismissible alert-info">
                   <strong>Los campos con <i class="fa fa-asterisk" aria-hidden="true"></i> son obligatorios</strong>
                 </div>
-              </div> -->
+              </div>
             <div class="tile-body">
               <form id="incidencia">
                 <div class="form-group">
                   <label class="control-label">Título</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
-                  <input class="form-control" name="titulo" >
+                  <input class="form-control" type="text" id="titulo" >
                 </div>
                 
                 <div class="form-group">
                   <label class="control-label">Descripción del problema <i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                  <textarea class="form-control" name="detalles" rows="4" placeholder="Ingresa los detalles..."></textarea>
+                  <textarea class="form-control" id="detalles" rows="4" placeholder="Ingresa los detalles..."></textarea>
                 </div>
                 <div class="form-group">
                   <label class="control-label">Prioridad</label> <i class="fa fa-asterisk" aria-hidden="true"></i>
@@ -198,6 +198,7 @@ if (!isset($_SESSION['id']))
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/Funciones.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->

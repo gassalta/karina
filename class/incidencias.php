@@ -28,15 +28,19 @@ class Incidencias
                 $response = $this->notFoundResponse();
                 break;
         }
-        header($response['status_code_header']);
-        if ($response['body']) {
-            echo json_encode($response['body']);
+        if ($response) {
+            echo json_encode($response);
         }
     }
 
-    private function mostrarIncidencias()
+    public function mostrarIncidencias()
     {
-        $query = "SELECT * FROM usuarios";
+        $query = 'SELECT ins.id,ins.titulo,ins.descripcion,u.nombre,u.apellido,ua.area_nombre area, ie.est_nombre estado, ip.pri_nombre prioridad, DATE_FORMAT(ins.fecha, "%d/%m%Y %H:%i:%s") fechas FROM incidencias ins
+        INNER JOIN inc_prioridades ip ON ins.prioridad = ip.pri_id 
+        INNER JOIN inc_estado ie ON ins.estado = ie.est_id
+        INNER JOIN usuarios u ON ins.creado_por = u.id
+        INNER JOIN user_areas ua ON u.area = ua.id
+        ORDER by ins.prioridad ASC;';
 
         try {
             $statement = $this->db->query($query);
@@ -45,8 +49,7 @@ class Incidencias
             exit($e->getMessage());
         }
 
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = $result;
+        $response = $result;
         return $response;
     }
 
@@ -69,11 +72,13 @@ class Incidencias
             return $this->unprocessableEntityResponse();
         }
         // VALIDACION basica
+        $titulo     = htmlspecialchars($sanitize['titulo']);
+        $detalles     = htmlspecialchars($sanitize['detalles']);
+        $prioridad     = htmlspecialchars($sanitize['prioridad']);
+        $usuario    = $_SESSION['id'];
 
-        $email     = htmlspecialchars($sanitize['email']);
-        $password     = htmlspecialchars(md5($sanitize['password']));
 
-        if (empty($email) or !filter_var($email, FILTER_VALIDATE_EMAIL) and empty($password)) {
+        if (empty($titulo) and empty($detalles) and empty($prioridad)) {
             $status  = "error";
             self::$valid = false;
         }
@@ -81,23 +86,15 @@ class Incidencias
         if (self::$valid) {
 
             $pdo = $this->db;
-            // Verificar usuario y contraseña que este activo
-            $login_usuario = $pdo->prepare("SELECT * FROM usuarios WHERE email = '{$email}' AND password = '{$password}'");
-            // Bind values
-
-            $login_usuario->execute();
 
             try {
-                if ($row = $login_usuario->fetch()) {
-                    $id = $row['id'];
-                    // Actualizar el ultimo login
-                    $pdo->exec("UPDATE usuarios SET ultfechaacceso = NOW() WHERE id = {$id}");
-                    // Generar sesion de usuario
-                    $this->prepLogin($id, $row);
-                    $status = "success";
-                } else {
-                    $status  = "error";
-                }
+                $insertar = "INSERT INTO incidencias (titulo,descripcion,creado_por,fecha,prioridad,estado)
+						   VALUES ('{$titulo}','{$detalles}','{$usuario}',NOW(),'{$prioridad}',1)";
+
+                $incidenciaSql = $pdo->prepare($insertar);
+                $incidenciaSql->execute();
+                $status = 'success';
+                
             } catch (\PDOException $e) {
                 exit($e->getMessage());
             }
@@ -108,16 +105,6 @@ class Incidencias
             'status' =>  $status
         );
         return $response;
-    }
-
-
-    public function prepLogin($id, $row)
-    {
-        $_SESSION['id'] = $id;
-        $_SESSION['nombre'] = $row['nombre'];
-        $_SESSION['apellido'] = $row['apellido'];
-        $_SESSION['nivel'] = $row['nivel'];
-        $_SESSION['imagen'] = $row['imagen'];
     }
 
     public function find($id)
