@@ -6,8 +6,8 @@ class Incidencias
 
     public function __construct($db, $requestMethod)
     {
-        $this->db = $db;
-        $this->requestMethod = $requestMethod;
+        $this->db = $db; // conexion
+        $this->requestMethod = $requestMethod; // tipo de solicitud
     }
 
     public function gets()
